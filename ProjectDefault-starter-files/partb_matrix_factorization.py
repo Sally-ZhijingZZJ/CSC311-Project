@@ -28,29 +28,33 @@ def add_weights(data):
     is_correct = data["is_correct"]
     user_id = data["user_id"]
 
+    # initialize and setup each dictionary
     dictionary = dict()
     question_count = dict()
     user_count = dict()
-    weights = dict() #{question:{user:weight}}
+    weights = dict()
 
     for id in set(question_id):
-        dictionary[id] = [0,0] #dictionary[id][0] = total, [1] for correct
+        dictionary[id] = [0,0]
         question_count[id] = 0
         weights[id] = dict()
     for id in set(user_id):
         user_count[id] = 0
         for q in set(question_id):
             weights[q][id] = 0
-
+    # count number of times a question appears,
+    # and how many times a student get it correct
     for i in range(len(question_id)):
         dictionary[question_id[i]][0] += 1
         if is_correct[i] == 1:
             dictionary[question_id[i]][1] += 1
         question_count[question_id[i]] += 1
     weights_acc = dict()
+    # count how many questions a student had answered
     for u in user_id:
         user_count[u] += 1
 
+    # calculate correct rate for each question
     for key in dictionary:
         if dictionary[key][0] != 0:
             weights_acc[key] = dictionary[key][1] / dictionary[key][0]
@@ -59,13 +63,17 @@ def add_weights(data):
     mean = np.mean([weights_acc[key] for key in weights_acc])
 
     for key in dictionary:
+        # calculate weight based on correct rate for each question
         weights_acc[key] = 1 - (np.abs(mean - weights_acc[key]))
 
     for q in set(question_id):
-        w_1 = weights_acc[q]
+        w_m = weights_acc[q]
         for u in set(user_id):
-            w_2 = 1 / (question_count[q] * user_count[u])
-            weight = w_2 * w_1
+            # calculate weight based on correct rate,
+            # and number of times a question being answered
+            # and how many question a student answered
+            w_mn = 1 / (question_count[q] * user_count[u])
+            weight = w_mn * w_m
             weights[q][u] = 1 - (1 - weight) * 0.05
     return weights
 
