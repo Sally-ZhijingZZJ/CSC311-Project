@@ -67,13 +67,13 @@ def add_weights(data):
         weights_acc[key] = 1 - (np.abs(mean - weights_acc[key]))
 
     for q in set(question_id):
-        w_m = weights_acc[q]
+        w_1 = weights_acc[q]
         for u in set(user_id):
             # calculate weight based on correct rate,
             # and number of times a question being answered
             # and how many question a student answered
-            w_mn = 1 / (question_count[q] * user_count[u])
-            weight = w_mn * w_m
+            w_2 = 1 / (question_count[q] * user_count[u])
+            weight = w_2 * w_1
             weights[q][u] = 1 - (1 - weight) * 0.05
     return weights
 
