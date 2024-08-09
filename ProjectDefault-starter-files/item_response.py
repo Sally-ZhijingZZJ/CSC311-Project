@@ -81,7 +81,7 @@ def irt(data, val_data, lr, iterations):
 
     N = len(data['user_id'])
     D = len(data['question_id'])
-    theta = np.random.randn(N, 1) * 0.05
+    theta = np.random.randn(N, 1) * 0.1
     beta = np.random.randn(D, 1) * 0.01
 
     # for part b
@@ -154,7 +154,7 @@ def main():
     plt.legend()
     plt.title('Negative Log Likelihood vs. Iteration')
     plt.savefig("./ProjectDefault-starter-files/plot/log_likelihood_plot.png")
-    plt.show()
+    plt.close()
     
     # part c
     print("val accuracy: ", evaluate(val_data, theta, beta))
