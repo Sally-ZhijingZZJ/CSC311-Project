@@ -52,7 +52,5 @@ def main():
     print(f"avg acc for test is:{avg_test}")
 
 
-
-
 if __name__ == "__main__":
     main()
