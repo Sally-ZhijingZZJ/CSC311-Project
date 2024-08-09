@@ -24,6 +24,10 @@ def squared_error_loss(data, u, z):
     return 0.5 * loss
 
 def add_weights(data):
+    """Return weights corresponding to each question and person.
+    :param data: A dictionary {user_id: list, question_id: list,
+    is_correct: list}
+    """
     question_id = data["question_id"]
     is_correct = data["is_correct"]
     user_id = data["user_id"]
@@ -156,7 +160,7 @@ def main():
     max_param = acc_param[max(accs)]
     print("max is ", max_param)
 
-    # get parameters with max acc
+    # get hyperparameters with max acc
     k = int(max_param.split(" ")[0].strip("k:"))
     lr = float(max_param.split(" ")[1].strip("lr:"))
     iteration = int(max_param.split(" ")[2].strip("iteration:"))
