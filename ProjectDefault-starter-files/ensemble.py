@@ -1,6 +1,5 @@
 # TODO: complete this file.
 from matrix_factorization import *
-from item_response import *
 from knn import *
 from utils import (
     load_train_csv,
@@ -44,7 +43,9 @@ def get_accuracy(data, prediction):
     for i in range(len(data['is_correct'])):
         total += 1
         pred = prediction[i]
-        if round(pred) == data["is_correct"][i]:
+        if pred >= 0.5 and data["is_correct"][i]:
+            correct += 1
+        if pred < 0.5 and not data["is_correct"][i]:
             correct += 1
     return correct / total
 
